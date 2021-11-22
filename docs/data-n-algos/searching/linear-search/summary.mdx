@@ -1,0 +1,78 @@
+---
+sidebar_position: 400
+custom_edit_url: null
+---
+
+import {CodeBlock} from '@site/src/components/CodeBlock';
+import {Feedback} from '@site/src/components/Feedback';
+
+# Summary
+**Linear Search:**
+- Is a simple algorithm to implement to search for the existence or location of items in linear data types.
+- Can search for values in nominal (i.e. unsortable) and unsorted data without any preprocessing.
+- Has an average and worst case time complexity of $$O(n)$$ but a best case time complexity of $$O(1)$$.
+- However, the overall performance of linear search depends on the distribution of data and expected target values.
+- Already has many common built-in implementations in Python such as `.index`, and `in` for sequences such as lists, and tuples; and additionally `.find`, `.rindex`, and `.rfind` for strings.
+
+## How to do it
+There are several ways to "do" linear search with many of them being built-in to Python.
+Here are some of the ways you could search for values:
+
+**Check if an item is in a collection using the `in` operator:**
+<CodeBlock title="Check if an item is in a Collection"
+code={`
+data = [1, 2, 3, 4]
+${''}
+print(3 in data)
+print(10 in data)
+`}/>
+
+**Get the index of an item in a Sequence using the `.index` method:**
+<CodeBlock title="Get the index of an item in a sequence"
+           code={`
+data = [1, 2, 3, 4]
+${''}
+print(data.index(3))
+print(data.index(10))
+`}/>
+
+**Note:** This raises a `ValueError` if the item is not in the Sequence.
+Use `.find` on strings to return -1 instead of raising an error.
+
+**Check if an item matching some condition is in a Sequence or iterable using the `any` function:**
+<CodeBlock title="Check for the existence of an item on some condition"
+code={`
+data = [1, 2, 3, 4]
+${''}
+print(any(x % 2 == 0 for x in data))  # contains an even value
+print(any(x > 10 for x in data))  # contains a value greater than 10
+`}/>
+
+**Get the index of an item matching some condition using the `next` function:**
+<CodeBlock title="Get the index of an item matching a condition"
+code={`
+data = [1, 2, 3, 4]
+${''}
+print(next(i for i, x in enumerate(data) if x % 2 == 0))
+print(next(i for i, x in enumerate(data) if x > 10))
+`}/>
+
+**Note:** `next` will raise a `StopIteration` error if no item matching the condition exists.
+You can use a default value to avoid this: `next(i for i, x in enumerate(data) if x > 10, -1)` where -1 is the default value that will be returned if no values are greater than 10 in `data`.
+
+### Most Importantly
+If the conditions you need to check for are complex, it is just best to use a loop:
+<CodeBlock title="Using a loop to search"
+code={`
+def first_even(data):
+    for i, value in enumerate(data):
+        if value % 2 == 0:
+            return i
+    raise ValueError('There are no even values in the Sequence')
+${''}
+data = [1, 2, 3, 4]
+print(first_even(data))
+`}/>
+
+
+<Feedback page={'linear-search/summary'}/>

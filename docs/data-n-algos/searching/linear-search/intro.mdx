@@ -1,0 +1,40 @@
+---
+sidebar_position: 100
+custom_edit_url: null
+sidebar_label: Intro
+---
+
+import {Carousel} from '@site/src/components/Carousel';
+import {Feedback} from '@site/src/components/Feedback';
+
+# Linear Search
+Linear search is perhaps the simplest way of searching for data in any kind of linear data type.
+Linear search can be used to find the index of certain items in a sequence or to check whether a particular item exists within an iterable.
+The premise of this algorithm is simple, loop over values and check each one until you find the value you're looking for:
+
+<Carousel title={'Finding an Item'}>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-found/0.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-found/1.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-found/2.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-found/3.svg'}/>
+</Carousel>
+
+Or, you have looped over all the values without finding anything:
+
+<Carousel title={'Not Finding an Item'}>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-not-found/0.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-not-found/1.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-not-found/2.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-not-found/3.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-not-found/4.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-not-found/5.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/intro/ex-not-found/6.svg'}/>
+</Carousel>
+
+
+
+## Benefits of Linear Search
+Linear search is a very simple algorithm and is quick and easy to implement.
+While it is not always the fastest searching algorithm, it can search nominal (i.e. unsortable) or unsorted data without preprocessing which many sorting algorithms cannot do.
+
+<Feedback page={'linear-search/intro'}/>

@@ -1,0 +1,41 @@
+---
+sidebar_position: 500
+custom_edit_url: null
+---
+
+import {CodeBlock} from '@site/src/components/CodeBlock';
+import {Feedback} from '@site/src/components/Feedback';
+
+# Additional Notes
+In the [searching for the last index](algorithm.mdx#searching-for-the-last-index) section, a common linear search anti-pattern was identified where a `last_found` variable was used to keep track of the last occurrence of an item.
+For sequences like lists, strings, and tuples, this can be slightly inefficient as it guarantees worst case complexity.
+In general, the `range` function should be reversed to search for the last occurrence of an item.
+
+However, for _some_ data structures that only go "in one direction" like singularly linked lists, reversing the `range` function (or using the `range` function at all) would actually give us $$O(n^2)$$ time complexity!
+This is because indexing values in some data structures such as linked lists is an expensive $$O(n)$$ time operation.
+In this case, it is actually better to loop forwards with a `last_found` variable by using an _iterator_ to loop over values rather than a `range`.
+For example:
+
+<CodeBlock title={'Finding the Last Index - In a Linked List'}
+preamble={`
+from collections.abc import Sequence;
+from collections import deque
+from typing import Any
+class MyLinkedList(deque): ...`}
+code={`
+def linear_search(data: Sequence, target: Any) -> bool:
+    last_found = -1
+    for i, elt in enumerate(data):
+        if elt == target:
+            last_found = i
+    return last_found
+${''}
+${''}
+data_list = MyLinkedList(['some', 'words', 'in', 'a', 'list'])
+print(linear_search(data_list, 'in'))
+print(linear_search(data_list, 'Hello'))
+`}/>
+
+If the iterator for this linked list was implemented efficiently, this will have an $$O(n)$$ time complexity for the average, best, and worst cases.
+
+<Feedback page={'linear-search/notes'}/>

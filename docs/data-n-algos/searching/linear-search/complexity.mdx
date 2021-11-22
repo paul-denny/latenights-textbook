@@ -1,0 +1,55 @@
+---
+sidebar_position: 300
+custom_edit_url: null
+---
+
+import {Feedback} from '@site/src/components/Feedback';
+
+# Complexity
+## Best Case
+Consider the case where the target value is the first item in the itrable or sequence being searched.
+
+<img className={'center diagram'} src={'/docs/data-n-algos/searching/linear-search/complexity/target-is-first.svg'}/>
+
+In this case, we only ever have to look at one value; we check the value at the first index, see it is equal to the target, and return.
+In other words, the number of operations is not dependent on the size of the sequence or iterable so the best case time complexity is $O(1)$.
+
+
+
+## Worst Case
+Consider the case where the target is not in the iterable or sequence or is near at end of the iterable or sequence.
+
+<div className={'multi'}>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/complexity/target-not-found.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/linear-search/complexity/target-is-last.svg'}/>
+</div>
+
+In this case, we would have to check every value against the target.
+In other words, for an iterable or sequence of size $$n$$, we would have to check $$n$$ items; so, the worst case time complexity is $$O(n)$$.
+
+
+
+## Average Case
+Ignoring the case where a given target is not contained in the iterable or sequence, and imagining our data is randomly shuffled, on average we would expect linear search to search $$n/2$$ values.
+
+<img className={'center diagram'} src={'/docs/data-n-algos/searching/linear-search/complexity/average-case.svg'}/>
+
+This is because, in general, for every best-case there is a corresponding 'mirror image' worst-case and everything in between, and these cases even out to $$n/2$$ values searched.
+Since $$n/2$$ is still linear with respect to $$n$$, the average case for linear search is $$O(n)$$.
+
+
+
+### Considerations
+Now, we can't always assume that our data is shuffled or that a given target is guaranteed to be in a given iterable or sequence.
+This is where the considerations around linear search need to be evaluated on a case-by-case basis.
+
+For example, if we know that the values we are likely to be searching for will be towards the front of an iterable or sequence, the performance is likely going to be better than the case where values are missing or towards the back of an iterable or sequence.
+Or, if we know that the iterable or sequence contains several repeated values we are likely to search for, the performance improves even more – depending on how many times values are repeated.
+
+
+
+## Complexity Overview
+Linear search has an **average case** time complexity of $$O(n)$$, a **best case** time complexity of $$O(1)$$, and a **worst case** time complexity of $$O(n)$$.
+However, the target value and distribution of data in an iterable or sequence can affect the overall performance of linear search.
+
+<Feedback page={'linear-search/complexity'}/>

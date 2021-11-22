@@ -1,0 +1,260 @@
+---
+sidebar_position: 200
+custom_edit_url: null
+---
+
+import {CodeBlock} from '@site/src/components/CodeBlock';
+import {Feedback} from '@site/src/components/Feedback';
+
+# The Algorithm
+There are lots of ways to implement a linear search that can be used to do slightly different things.
+This chapter is not exhaustive but will give an overview of some different ways linear search could be implemented and the different types of things linear search could search for.
+
+
+
+## Searching by Value
+Let's say we want to check whether an iterable contains a particular item.
+The following function, `linear_search`, checks for the existence of the `target` parameter inside the `data` iterable.
+
+<CodeBlock title={'Linear Search - Search for Existence'}
+           preamble={'from collections.abc import Iterable; from typing import Any'}
+           code={`
+def linear_search(data: Iterable, target: Any) -> bool:
+    for elt in data:
+        if elt == target:
+            return True
+    return False
+${''}
+${''}
+data_list = ['some', 'words', 'in', 'a', 'list']
+print(linear_search(data_list, 'in'))
+print(linear_search(data_list, 'Hello'))
+`}/>
+
+
+
+### Seems Familiar? The `in` Keyword
+Python already _has_ a way to check for the existence of a value in any type of container, including sequences and iterables, using the `in` keyword.
+The following is equivalent to the code block above:
+
+<CodeBlock title={'Search for Existence - Using the in Keyword'}
+           code={`
+data_list = ['some', 'words', 'in', 'a', 'list']
+${''}
+print('in' in data_list)
+print('Hello' in data_list)
+`}/>
+
+In most cases, the `in` keyword is the preferred way of checking for the existence of a value in a container.
+And, for linear data types such as lists, tuples, and strings, Python will use linear search "in the background" to check for the existence of the item.
+
+
+
+## Searching by Condition
+Sometimes it may be preferable to check whether an item matching some condition exists within in an iterable.
+For example, let's say we want to check whether a list of strings contains a word that is less than three characters long:
+
+<CodeBlock title={'Searching by Condition - Hardcoded Predicate'}
+           preamble={'from collections.abc import Iterable'}
+           code={`
+def contains_small(words: Iterable[str]) -> bool:
+    for word in words:
+        if len(word) < 3:
+            return True
+    return False
+${''}
+${''}
+data_list = ['some', 'words', 'in', 'a', 'list']
+print(contains_small(data_list))
+`}/>
+
+In this case, the function `contains_small` has a hardcoded condition to check each value against.
+
+
+
+### Seems Familiar? The `any` function
+Just like with checking by value, Python already has an inbuilt feature for checking if a value matching some condition exists.
+We can use the `any` function to check for the existence of a value matching some condition by combining it with a generator expression:
+
+<CodeBlock title={'Searching by Condition - Using the any Function'}
+           code={`
+data_list = ['some', 'words', 'in', 'a', 'list']
+${''}
+print(any(len(word) < 3 for word in data_list))
+`}/>
+
+While the `any` function is convenient for **simple** cases, if the condition being checked becomes complex, then using a for loop and if statement, like in the previous examples, may be more readable.
+
+
+## Searching for an Index
+When dealing with sequences where we can refer to items by index, oftentimes we not only want to know _if_ a particular item is in a sequence, but also _where_ that item might be in the sequence.
+In this case, we can adapt our linear search algorithm to return the first index of a value in a sequence.
+For example:
+
+<CodeBlock title={'Linear Search - Finding the First Index'}
+           preamble={'from collections.abc import Sequence; from typing import Any'}
+           code={`
+def linear_search(data: Sequence, target: Any) -> int:
+    for i in range(len(data)):
+        if data[i] == target:
+            return i
+    raise ValueError(f'{target!r} is not in the Sequence')
+${''}
+${''}
+data_list = ['sometimes', 'words', 'in', 'a', 'list', 'sometimes', 'repeat']
+print(linear_search(data_list, 'sometimes'))
+print(linear_search(data_list, 'Hello'))
+`}/>
+
+In this case, if the given `target` is not found in the sequence, a `ValueError` is raised.
+However, it is common to return a value like $$-1$$ if the target cannot be found in the sequence to avoid raising an error.
+
+
+
+### Seems Familiar? The `.index` Method
+Sequences in Python already have a method to find the index of a particular item – the `.index` method.
+The following is equivalent to the example above:
+
+<CodeBlock title={'Finding the First Index - The .index Method'}
+           code={`
+data_list = ['sometimes', 'words', 'in', 'a', 'list', 'sometimes', 'repeat']
+${''}
+print(data_list.index('sometimes'))
+print(data_list.index('Hello'))
+`}/>
+
+If a value is not in the sequence, a `ValueError` is raised.
+
+:::info Strings and `.find`
+
+Strings also have an additional `.find` method.
+This works in the same way as the `.index` method except if a value is not in the string, $$-1$$ is returned instead of an error being raised.
+
+<CodeBlock title={'Using .find on Strings'}
+           code={`
+data = 'sometimes words in a list sometimes repeat'
+${''}
+print(data.find('sometimes'))
+print(data.find('Hello'))
+`}/>
+
+:::
+
+
+
+### Searching for the Last Index
+Occasionally, we want to find the _last_ occurrence of an item.
+In this case, we simply need to reverse the `range` in the for loop from before:
+
+<CodeBlock title={'Linear Search - Finding the Last Index'}
+           preamble={'from collections.abc import Sequence; from typing import Any'}
+           code={`
+def linear_search(data: Sequence, target: Any) -> int:
+    for i in range(len(data) - 1, -1, -1):
+        if data[i] == target:
+            return i
+    raise ValueError(f'{target!r} is not in the Sequence')
+${''}
+${''}
+data_list = ['sometimes', 'words', 'in', 'a', 'list', 'sometimes', 'repeat']
+print(linear_search(data_list, 'sometimes'))
+print(linear_search(data_list, 'Hello'))
+`}/>
+
+This way we start searching from the end of the list and stop when we hit the first rightmost index of the target.
+I.e., the last index of the target.
+
+:::warning Anti-Pattern Alert!
+
+A lot of programmers' knee-jerk reaction to finding the last occurrence of an item is to use some kind of `current` variable that updates when a new occurrence of the target has been found:
+
+<CodeBlock title={'Anti-Pattern - Finding the Last Index'}
+           preamble={'from collections.abc import Sequence; from typing import Any'}
+           code={`
+def linear_search(data: Sequence, target: Any) -> int:
+    last_found = -1
+    for i in range(len(data)):
+        if data[i] == target:
+            last_found = i
+    return last_found
+${''}
+${''}
+data_list = ['sometimes', 'words', 'in', 'a', 'list', 'sometimes', 'repeat']
+print(linear_search(data_list, 'sometimes'))
+`}/>
+
+While this works, it guarantees worst-case complexity and adds unnecessary variables to the solution.
+It is easier to just reverse the `range` rather than take an entirely different approach.
+
+:::
+
+Unfortunately, there is no commonly accepted function or method to find the last index of an item in a sequence in Python.
+Perhaps the easiest would be to use the `indexOf` function from the `operator` module with the reversed sequence:
+
+<CodeBlock title={'Finding the Last Index - The next Function'}
+           code={`
+from operator import indexOf
+${''}
+data_list = ['sometimes', 'words', 'in', 'a', 'list', 'sometimes', 'repeat']
+print(len(data_list) - indexOf(reversed(data_list), 'sometimes') - 1)
+`}/>
+
+However, this isn't exactly readable, so in this case a simple for loop might be the best option.
+
+:::info Strings and `.rfind` and `.rindex`
+
+While sequences in general don't have an easy method for finding the last index of an item, strings have two methods `.rfind` and `.rindex` that do just that.
+These methods work in the same way as `.find` and `.index`, but search from the right side of the string.
+
+<CodeBlock title={'Using .rfind and .rindex on Strings'}
+           code={`
+data = 'sometimes words in a list sometimes repeat'
+${''}
+print(data.rfind('sometimes'))
+print(data.rindex('sometimes'))
+${''}
+print(data.rfind('Hello'))
+print(data.rindex('Hello'))
+`}/>
+
+:::
+
+
+### Searching for an Index by Condition
+Another variation of linear search is that we may want to search for an index by some condition.
+In this case, we could just repurpose the for loop from the [searching by condition](#searching-by-condition) section above to return the index of the element instead of `True` or `False`.
+
+However, we would also use the `next` function combined with a generator expression to find an index based on a condition:
+
+<CodeBlock title={'Searching for an Index by Condition - The next Function'}
+           code={`
+data_list = ['sometimes', 'words', 'in', 'a', 'list', 'sometimes', 'repeat']
+${''}
+index = next(i for i, elt in enumerate(data_list) if len(elt) < 3)
+print(index)
+`}/>
+
+
+## Using a While Loop
+For some linear data structures, it might be easier to loop over items using a while loop.
+To convert the basic linear search for loop to a while loop, we can do the following:
+
+<CodeBlock title={'Linear Search - Using a While Loop'}
+           preamble={'from collections.abc import Sequence; from typing import Any'}
+           code={`
+def linear_search(data: Sequence, target: Any) -> bool:
+    i = 0
+    while i < len(data) and data[i] != target:
+        i += 1
+    return i != len(data)
+${''}
+${''}
+data_list = ['some', 'words', 'in', 'a', 'list']
+print(linear_search(data_list, 'in'))
+print(linear_search(data_list, 'Hello'))
+`}/>
+
+Here, if the item is in the sequence, the index `i` will be less than the length of the sequence after the while loop, so the function returns True.
+However, if the item is not in the sequence, the loop exists when `i` is equal to the length of the sequence, so the function returns False.
+
+<Feedback page={'linear-search/searching'}/>
