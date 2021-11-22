@@ -55,8 +55,7 @@ export const CodeBlock = (props) => {
     }
 
     function runCode() {
-        // const url = "https://api.latenights.me/runCode"
-        const url = "https://w0oprcety1.execute-api.ap-southeast-2.amazonaws.com/default/runNoCORS"
+        const url = "https://api.latenights.me/runCode"
         let preamble = props.preamble == null ? '' : props.preamble
         if (codeChanged) {
             setResult({stdout: 'Loading...', stderr: ''})
