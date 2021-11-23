@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
@@ -6,7 +6,7 @@ import {CodeSnippets} from './_CodeSnippets'
 import {CodeBlock} from "@site/src/components/CodeBlock";
 
 export default function Home() {
-    const codeSnippet = CodeSnippets[Math.floor(Math.random() * CodeSnippets.length)]
+    let [codeSnippet, updateCodeSnippet] = useState(CodeSnippets[Math.floor(Math.random() * CodeSnippets.length)])
 
     return (
         <Layout
@@ -22,7 +22,7 @@ export default function Home() {
                 }}>
                     <h1 style={{textAlign: 'center'}}>Welcome to the Online Textbook 🎉</h1>
                     <Link
-                        style={{margin: '0 0 20px'}}
+                        style={{marginBottom: '20px'}}
                         className="button button--primary button--lg"
                         to="/docs/welcome">
                         Get Started
