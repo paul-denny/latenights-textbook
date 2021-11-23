@@ -4,15 +4,45 @@ custom_edit_url: null
 ---
 
 import {CodeBlock} from '@site/src/components/CodeBlock';
+import {Feedback} from '@site/src/components/Feedback';
 
 # Welcome
-
 Welcome to the Late Nights online textbook 🎉
 
-Currently, a work in progress, but we are getting there!
+This textbook will walk you through programming practices, program design, object-oriented programming, data structures, and more!
+
+This textbook will focus on helping you write better code by focusing on the process of writing code and practices you can follow to ensure you write high-quality software.
+Developing software is more than simply writing code.
+It is a process.
+We will not cover all aspects of developing software here but will introduce some fundamental principles and practices involved in developing high-quality software.
+
+Ultimately, our goal is to develop software that works well and that is easy to maintain.
+We have to remember that software is written for two different audiences - both computers and humans have to understand and use the software you write.
+
+
+
+## Code Blocks
+Throughout the textbook there will be several runnable and editable code examples.
+You can click the play button in the bottom left to run the code block and the reset button in the bottom right to undo any changes you've made.
+
+<CodeBlock title="Code Block Example"
+code={`
+def foo():
+    print('Go Ahead')
+    bar()
+${''}
+def bar():
+    print('Try editing this window!')
+${''}
+foo()
+`}/>
+
+You can play around with these editing the code and running them to see what happens.
+But, be warned, your changes will be reset if you reload the page.
+
+
 
 ## What's with the Cows?
-
 They are there to add some spice to my, and hopefully, your life.
 Error messages are never fun.
 But, the addition of cows might make getting error messages just a bit less draining.
@@ -28,3 +58,9 @@ raise Cowsay('Moo')
              ||     ||
 '''''''''''''''''''''''''''''''''
 `}/>
+
+## Feedback
+We are constantly looking to improve the site.
+If you want, let us know what you think of different chapters in the feedback forms at the bottom of each page.
+
+<Feedback page={'welcome'}/>

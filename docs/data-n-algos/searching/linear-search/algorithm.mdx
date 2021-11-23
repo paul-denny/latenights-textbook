@@ -88,7 +88,7 @@ While the `any` function is convenient for **simple** cases, if the condition be
 
 ## Searching for an Index
 When dealing with sequences where we can refer to items by index, oftentimes we not only want to know _if_ a particular item is in a sequence, but also _where_ that item might be in the sequence.
-In this case, we can adapt our linear search algorithm to return the first index of a value in a sequence.
+In this case, we can adapt our linear search algorithm to return the index of the first occurrence of a value in a sequence.
 For example:
 
 <CodeBlock title={'Linear Search - Finding the First Index'}
@@ -107,7 +107,7 @@ print(linear_search(data_list, 'Hello'))
 `}/>
 
 In this case, if the given `target` is not found in the sequence, a `ValueError` is raised.
-However, it is common to return a value like $$-1$$ if the target cannot be found in the sequence to avoid raising an error.
+However, it is common to return a value like -1 if the target cannot be found in the sequence to avoid raising an error.
 
 
 
@@ -132,7 +132,7 @@ This works in the same way as the `.index` method except if a value is not in th
 
 <CodeBlock title={'Using .find on Strings'}
            code={`
-data = 'sometimes words in a list sometimes repeat'
+data = 'sometimes words in a string sometimes repeat'
 ${''}
 print(data.find('sometimes'))
 print(data.find('Hello'))
@@ -191,7 +191,7 @@ It is easier to just reverse the `range` rather than take an entirely different 
 Unfortunately, there is no commonly accepted function or method to find the last index of an item in a sequence in Python.
 Perhaps the easiest would be to use the `indexOf` function from the `operator` module with the reversed sequence:
 
-<CodeBlock title={'Finding the Last Index - The next Function'}
+<CodeBlock title={'Finding the Last Index - The indexOf Function'}
            code={`
 from operator import indexOf
 ${''}
@@ -233,6 +233,15 @@ ${''}
 index = next(i for i, elt in enumerate(data_list) if len(elt) < 3)
 print(index)
 `}/>
+
+As with the `any` function, this is fine for **simple** cases but if the condition becomes complex, a for loop would be best.
+
+Also, the `next` function will raise a `StopIteration` exception if no values matching the condition exist.
+To instead return some kind of default value, use the optional default parameter:
+<p style={{textAlign: "center"}}>
+    <code>index = next(i for i, elt in enumerate(data_list) if len(elt) &lt; 3, -1)</code>
+</p>
+In this case, the default value is -1 and will be returned if no strings shorter than three characters long are in the data list.
 
 
 ## Using a While Loop

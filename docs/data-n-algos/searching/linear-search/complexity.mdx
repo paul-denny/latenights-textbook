@@ -6,7 +6,8 @@ custom_edit_url: null
 import {Feedback} from '@site/src/components/Feedback';
 
 # Complexity
-## Best Case
+## Time Complexity
+### Best Case
 Consider the case where the target value is the first item in the itrable or sequence being searched.
 
 <img className={'center diagram'} src={'/docs/data-n-algos/searching/linear-search/complexity/target-is-first.svg'}/>
@@ -16,7 +17,7 @@ In other words, the number of operations is not dependent on the size of the seq
 
 
 
-## Worst Case
+### Worst Case
 Consider the case where the target is not in the iterable or sequence or is near at end of the iterable or sequence.
 
 <div className={'multi'}>
@@ -29,7 +30,7 @@ In other words, for an iterable or sequence of size $$n$$, we would have to chec
 
 
 
-## Average Case
+### Average Case
 Ignoring the case where a given target is not contained in the iterable or sequence, and imagining our data is randomly shuffled, on average we would expect linear search to search $$n/2$$ values.
 
 <img className={'center diagram'} src={'/docs/data-n-algos/searching/linear-search/complexity/average-case.svg'}/>
@@ -39,7 +40,7 @@ Since $$n/2$$ is still linear with respect to $$n$$, the average case for linear
 
 
 
-### Considerations
+#### Considerations
 Now, we can't always assume that our data is shuffled or that a given target is guaranteed to be in a given iterable or sequence.
 This is where the considerations around linear search need to be evaluated on a case-by-case basis.
 
@@ -48,8 +49,16 @@ Or, if we know that the iterable or sequence contains several repeated values we
 
 
 
+## Space Complexity
+As all variations of linear search at most keep a single reference to the current index, and current value during iteration, the auxiliary space complexity of linear search is $$O(1)$$.
+In other words, the amount of memory we need to perform a linear search is not dependent on the size of the input.
+
+
+
 ## Complexity Overview
 Linear search has an **average case** time complexity of $$O(n)$$, a **best case** time complexity of $$O(1)$$, and a **worst case** time complexity of $$O(n)$$.
 However, the target value and distribution of data in an iterable or sequence can affect the overall performance of linear search.
+
+The auxiliary space complexity of linear search is always $$O(1)$$ as the memory required to perform a linear search does not depend on the size of the input data.
 
 <Feedback page={'linear-search/complexity'}/>
