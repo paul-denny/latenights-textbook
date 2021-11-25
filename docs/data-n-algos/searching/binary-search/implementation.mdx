@@ -1,0 +1,281 @@
+---
+sidebar_position: 200
+custom_edit_url: null
+---
+
+import {CodeBlock} from '@site/src/components/CodeBlock';
+import {Carousel} from '@site/src/components/Carousel';
+import {Feedback} from '@site/src/components/Feedback';
+
+# Implementation
+Binary search can be implemented either iteratively or recursively but the thinking behind the two implementations are the same.
+This page first describe how we can think about binary search and then how to implement it recursively, and iteratively, as well as a builtin method for performing a binary search.
+
+
+
+## Thinking About Information
+At each step of the binary search process we are really defining a range (i.e. an upper and lower bound) of possible values in a sequence that might contain the value we are searching for.
+We continually shrink that range each time we get information about the values in the sequence until we find the value we are looking for, or run out of values to search (i.e. the upper and lower bounds cross over).
+
+In this way, we can think of binary search as keeping track of a `low` index and a `high` index that define the range of possible vales that _might_ contain the target value.
+Initially, we have no information about where the target value could be in a sequence, so we define our range to cover the whole sequence by setting `low` to 0 and `high` to the last index.
+
+
+
+### An Example – Finding A Value
+For example, in the following sequence with the target value "K", we initially have no information about where "K" might be.
+So, we set the `low` index to 0 and the `high` index to 6.
+
+<img className={'center diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-found-01.svg'}/>
+
+We then calculate a `mid` index by getting the index in the middle of `high` and `low`.
+In this case: $$mid\ =\ (0\ +\ 6)\ //\ 2\ =\ 3$$
+
+<img className={'center diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-found-02.svg'}/>
+
+We can then compare the value at the `mid` index to our target.
+In this case the target value is greater than the `mid` index, so we know "K" cannot be to the left of the `mid` index, or at the `mid` index either.
+We can then update our `low` index to one index after the `mid` index to update the range of possible locations "K" could be.
+
+<img className={'center diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-found-03.svg'}/>
+
+We then repeat the process by calculating a new `mid` index.
+This time, $$mid\ =\ (4\ +\ 6)\ //\ 2\ =\ 5$$.
+And, we find that the value at index 5 is equal to our target, "K", so we can stop.
+
+
+
+### An Example – Not Finding A Value
+Let's now consider the case where we are searching for a value that is not in a sequence.
+Taking the same sequence from before, let's now search for the target value "D".
+
+As before, we initially have no information about where "D" might be, so we set the `low` index to 0 and the `high` index to 6.
+We calculate the `mid` index, $$mid\ =\ (0\ +\ 6)\ //\ 2\ =\ 3$$, and find that the target value, "D", is less than the `mid` value, "G", so we update the `high` index to one index before the current `mid` index as "D" cannot be to the right of the `mid` index.
+
+<Carousel>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-01-1.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-01-2.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-02-1.svg'}/>
+</Carousel>
+
+We then repeat the process with the new `high` and `low` values.
+We calculate the `mid` index, $$mid\ =\ (0\ +\ 2)\ //\ 2\ =\ 1$$, and find that the target value, "D", is greater than the `mid` value, "C", so we update the `low` index to one index after the current `mid` index.
+
+<Carousel>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-02-1.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-02-2.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-03-1.svg'}/>
+</Carousel>
+
+Now, both `low` and `high` are pointing to the same index, but we haven't checked the value at this index.
+So, as before we calculate the `mid` index, and find that the target, "D", is less than the `mid` value, "E", so we update `high`.
+
+<Carousel>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-03-1.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-03-2.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-04-1.svg'}/>
+</Carousel>
+
+Now `high` and `low` have crossed over meaning our range of possible values is empty!
+This means there are no more values we can search, so we can conclude "D" is not in the Sequence.
+
+<img className={'center diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-not-found-04-2.svg'}/>
+
+## Iterative Implementation
+
+Thinking about the examples described above the general process we followed for a given sequence and target value was:
+- Set a `low` and `high` value to zero and the last index of the sequence respectively
+- While the `low` and `high` indices have not crossed over:
+    - Calculate a `mid` index
+    - Compare the value at the `mid` index to the target value
+        - If they are equal, return True
+        - If the target is greater than the `mid` value, set the `low` index to `mid + 1`
+        - If the target is less than the `mid` value, set the `high` index to `mid - 1`
+- If the loop exits, return False
+
+Translating that process into code we get:
+
+<CodeBlock title="Binary Search"
+preamble={`
+from collections.abc import Sequence
+from typing import Any
+`}
+code={`
+def binary_search(data: Sequence, target: Any) -> bool:
+    low = 0
+    high = len(data) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if data[mid] == target:
+            return True
+        if data[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return False
+${''}
+${''}
+data = ['a', 'list', 'of', 'some', 'sorted', 'words']
+print(binary_search(data, 'sorted'))
+print(binary_search(data, 'not in the list'))
+`}/>
+
+This implementation should be able to work on any ordinal data.
+In the example, strings are used for the data list and the target; however, this implementation will work with floats, integers, or anything that implements a `__lt__` method.
+
+While the target here is type hinted as Any, we need to make sure the target is comparable with the data in the sequence. I.e. the `__lt__` method is implemented and compatible between the data in the sequence and target.
+
+:::info Calculating the `mid` Index
+
+Remember to use integer division when calculating the `mid` index.
+Sequences can only take integers as indices, so if we were to use regular division (e.g. `(low + high) / 2`) we might end up with a float rather than an int value.
+This would cause an error.
+To avoid this, using integer division will ensure the `mid` index is always computed as an integer.
+It is the equivalent of taking the floor of the mid-point:  $$\lfloor (low\ +\ high)\ /\ 2\rfloor$$
+
+:::
+
+
+
+## Recursive Implementation
+Binary search can also be implemented recursively.
+The thinking around the recursive solution is that if we look at a middle value of a sequence, and it is not the target value, we know we need to search the left or right sides of the sequence using the exact same process we followed to search the whole sequence.
+We can think of searching the left or right side of the sequence as performing binary search on that subsequence.
+We stop when we either find the target value:
+
+<Carousel title={'Finding a Value Recursively'}>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive/01.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive/02.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive/03.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive/04.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive/05.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive/06.svg'}/>
+</Carousel>
+
+Or, we eventually try to search an empty subsequence:
+
+<Carousel title={'Not Finding a Value Recursively'}>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/01.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/02.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/03.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/04.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/05.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/06.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/07.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/08.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/09.svg'}/>
+    <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/implementation/ex-recursive-not-found/10.svg'}/>
+</Carousel>
+
+Here, our base cases are:
+- The sequence parameter is empty, in which case we return False
+- The middle value of the sequence is equal to the target, in which case we return True
+
+Our recursive cases are:
+- The middle value is less than the target, in which case we call binary search on the right side of the sequence and return the result
+- The middle value is greater than the target, in which case we call binary search on the left side of the sequence and return the result
+
+This gives us the following implementation:
+
+<CodeBlock title="Simple Recursive Binary Search"
+code={`
+def binary_search(data, target):
+    if not data:
+        return False
+    mid = len(data) // 2
+    if data[mid] == target:
+        return True
+    if data[mid] < target:
+        return binary_search(data[mid + 1:], target)
+    return binary_search(data[:mid], target)
+${''}
+${''}
+data = ['a', 'list', 'of', 'some', 'sorted', 'words']
+print(binary_search(data, 'sorted'))
+print(binary_search(data, 'not in the list'))
+`}/>
+
+:::caution Look at all that data!
+
+Woah! Look at all that extra data being copied on lines 8 and 9.
+The slices `data[mid + 1:]` and `data[:mid]` are really making a copy of each half of the data sequence and passing that copy to a new function call.
+This means we are taking up a lot of unnecessary auxiliary memory!
+
+:::
+
+
+
+### A Better Recursive Solution
+To avoid creating extra copies of data, we can use a helper function with extra `low` and `high` parameters to do our binary search:
+
+<CodeBlock title="Recursive Binary Search"
+preamble={`
+from collections.abc import Sequence
+from typing import Any
+`}
+code={`
+def _binary_search(data: Sequence, target: Any, low: int, high: int) -> bool:
+    if low > high:
+        return False
+    mid = (low + high) // 2
+    if data[mid] == target:
+        return True
+    if data[mid] < target:
+        return _binary_search(data, target, mid + 1, high)
+    return _binary_search(data, target, low, mid - 1)
+${''}
+${''}
+def binary_search(data: Sequence, target: Any) -> bool:
+    return _binary_search(data, target, 0, len(data))
+${''}
+${''}
+data = ['a', 'list', 'of', 'some', 'sorted', 'words']
+print(binary_search(data, 'sorted'))
+print(binary_search(data, 'not in the list'))
+`}/>
+
+Here, the `binary_search` function calls the helper `_binary_search` (with an underscore) function that deals with all the recursive calls.
+Instead of copying portions of the data parameter, this new recursive approach uses the `high` and `low` parameters to keep track of what portion of the sequence is left to search.
+
+
+
+## Seems Familiar? The `bisect` Module
+Python already has a module for performing binary search – the <u>[`bisect`](https://docs.python.org/3/library/bisect.html)</u> module.
+While this module doesn't quite perform binary search in the way described above, it can be easily modified to check for the existence of an item in a sorted sequence.
+
+The <u>[`bisect_left`](https://docs.python.org/3/library/bisect.html#bisect.bisect_left)</u> function takes a sequence and a target value as parameters and returns the first index in the sequence where inserting the target value would maintain sorted order using binary search in the background.
+A bit different from searching for a value, but we can check if the value at the index returned from this function is equal to our target value.
+
+Consider the following list: `[1, 3, 5, 7, 9]`.
+If we were to use `bisect_left` with the target value 5, the leftmost index we could insert the value 5 to maintain sorted order would be index 2.
+The value at index 2 is equal to 5, and so we can conclude 5 is in the list.
+Alternatively, if we were to use `bisect_left` with the target value 4, we would also get 2 as a result, as inserting 4 into index 2 would maintain the sorted order of the list.
+However, we can check that 4 does not match the value at index 2 and conclude 4 is not in the list.
+
+Another case to consider would be if we tried to search for a value that is greater than all the values in the list.
+Say we used `bisect_left` with the target value 11 on the above list.
+The function would return the index 5, as the only way to insert 11 and maintain the order of the list would be to append it to the end of the list.
+This means the `bisect_left` function can return indices outside the valid range of indices in a sequence, and we will need to guard against that.
+
+Using the above process we can write a binary search function that uses the `bisect_left` function to do the bulk of the work of binary search for us:
+
+<CodeBlock title="Binary search with bisect_left"
+code={`
+from bisect import bisect_left
+${''}
+${''}
+def binary_search(data, target):
+    i = bisect_left(data, target)
+    return i != len(data) and data[i] == target
+${''}
+${''}
+data = ['a', 'list', 'of', 'some', 'sorted', 'words']
+print(binary_search(data, 'sorted'))
+print(binary_search(data, 'not in the list'))
+`}/>
+
+There are additional examples of variations of this <u>[in the Python docs](https://docs.python.org/3/library/bisect.html#searching-sorted-lists)</u>.
+
+
+
+<Feedback page={'binary-search/implementation'}/>

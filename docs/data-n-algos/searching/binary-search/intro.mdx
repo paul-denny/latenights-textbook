@@ -4,18 +4,17 @@ custom_edit_url: null
 sidebar_label: Intro
 ---
 
-import {CodeBlock} from '@site/src/components/CodeBlock';
 import {Carousel} from '@site/src/components/Carousel';
 import {Feedback} from '@site/src/components/Feedback';
 
 # Binary Search
 Binary search is a searching method that only works on _sorted_ data.
 It uses a divide and conquer method to continually halve the values we need to search in a list.
-Because of this, binary search is very efficient
+Because of this, binary search is very efficient.
 
 Binary search works by selecting the middle value in a sequence and comparing that value to a target value.
 If the value is equal to the target, we can stop.
-Otherwise, if the target value is greater than the middle of the list we know, due to the sorted nature of the list, that there is no way the target value will be in the lower half of the list.
+Otherwise, if the target value is, say, greater than the middle of the list we know, due to the sorted nature of the list, that there is no way the target value will be in the lower half of the list.
 Therefore, in just one step we have eliminated half of the values from consideration in our search.
 We can then repeat that process on the remaining half of the list until we either find the value we are looking for:
 
@@ -47,6 +46,7 @@ Or, we have eliminated all values as possible candidates for containing the targ
     <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/intro/ex-not-found/10.svg'}/>
     <img className={'diagram'} src={'/docs/data-n-algos/searching/binary-search/intro/ex-not-found/11.svg'}/>
 </Carousel>
+
 
 
 ## Benefits of Binary Search
