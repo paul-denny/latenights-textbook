@@ -240,10 +240,10 @@ Instead of copying portions of the data parameter, this new recursive approach u
 
 
 ## Seems Familiar? The `bisect` Module
-Python already has a module for performing binary search – the <u>[`bisect`](https://docs.python.org/3/library/bisect.html)</u> module.
+Python already has a module for performing binary search – the [<u>`bisect`</u>](https://docs.python.org/3/library/bisect.html) module.
 While this module doesn't quite perform binary search in the way described above, it can be easily modified to check for the existence of an item in a sorted sequence.
 
-The <u>[`bisect_left`](https://docs.python.org/3/library/bisect.html#bisect.bisect_left)</u> function takes a sequence and a target value as parameters and returns the first index in the sequence where inserting the target value would maintain sorted order using binary search in the background.
+The [<u>`bisect_left`</u>](https://docs.python.org/3/library/bisect.html#bisect.bisect_left) function takes a sequence and a target value as parameters and returns the first index in the sequence where inserting the target value would maintain sorted order using binary search in the background.
 A bit different from searching for a value, but we can check if the value at the index returned from this function is equal to our target value.
 
 Consider the following list: `[1, 3, 5, 7, 9]`.
@@ -274,7 +274,7 @@ print(binary_search(data, 'sorted'))
 print(binary_search(data, 'not in the list'))
 `}/>
 
-There are additional examples of variations of this <u>[in the Python docs](https://docs.python.org/3/library/bisect.html#searching-sorted-lists)</u>.
+There are additional examples of variations of this [<u>in the Python docs</u>](https://docs.python.org/3/library/bisect.html#searching-sorted-lists).
 
 
 
