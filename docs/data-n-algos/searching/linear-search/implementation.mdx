@@ -34,7 +34,7 @@ print(linear_search(data_list, 'Hello'))
 
 
 ### Seems Familiar? The `in` Keyword
-Python already _has_ a way to check for the existence of a value in any type of container, including sequences and iterables, using the `in` keyword.
+Python already _has_ a way to check for the existence of a value in any type of container, including sequences and iterables, using the [<u>`in`</u>](https://docs.python.org/3/reference/expressions.html#in) keyword.
 The following is equivalent to the code block above:
 
 <CodeBlock title={'Search for Existence - Using the in Keyword'}
@@ -74,7 +74,7 @@ In this case, the function `contains_small` has a hardcoded condition to check e
 
 ### Seems Familiar? The `any` function
 Just like with checking by value, Python already has an inbuilt feature for checking if a value matching some condition exists.
-We can use the `any` function to check for the existence of a value matching some condition by combining it with a generator expression:
+We can use the [<u>`any`</u>](https://docs.python.org/3/library/functions.html#any) function to check for the existence of a value matching some condition by combining it with a generator expression:
 
 <CodeBlock title={'Searching by Condition - Using the any Function'}
            code={`
@@ -106,13 +106,13 @@ print(linear_search(data_list, 'sometimes'))
 print(linear_search(data_list, 'Hello'))
 `}/>
 
-In this case, if the given `target` is not found in the sequence, a `ValueError` is raised.
+In this case, if the given `target` is not found in the sequence, a [<u>`ValueError`</u>](https://docs.python.org/3/library/exceptions.html#ValueError) is raised.
 However, it is common to return a value like -1 if the target cannot be found in the sequence to avoid raising an error.
 
 
 
 ### Seems Familiar? The `.index` Method
-Sequences in Python already have a method to find the index of a particular item – the `.index` method.
+Sequences in Python already have a method to find the index of a particular item – the [<u>`.index`</u>](https://docs.python.org/3/library/stdtypes.html#common-sequence-operations) method.
 The following is equivalent to the example above:
 
 <CodeBlock title={'Finding the First Index - The .index Method'}
@@ -127,7 +127,7 @@ If a value is not in the sequence, a `ValueError` is raised.
 
 :::info Strings and `.find`
 
-Strings also have an additional `.find` method.
+Strings also have an additional [<u>`.find`</u>](https://docs.python.org/3/library/stdtypes.html#str.find) method.
 This works in the same way as the `.index` method except if a value is not in the string, $$-1$$ is returned instead of an error being raised.
 
 <CodeBlock title={'Using .find on Strings'}
@@ -189,7 +189,7 @@ It is easier to just reverse the `range` rather than take an entirely different 
 :::
 
 Unfortunately, there is no commonly accepted function or method to find the last index of an item in a sequence in Python.
-Perhaps the easiest would be to use the `indexOf` function from the `operator` module with the reversed sequence:
+Perhaps the easiest would be to use the [<u>`indexOf`</u>](https://docs.python.org/3/library/operator.html#operator.indexOf) function from the [<u>`operator`</u>](https://docs.python.org/3/library/operator.html) module with the reversed sequence:
 
 <CodeBlock title={'Finding the Last Index - The indexOf Function'}
            code={`
@@ -203,7 +203,7 @@ However, this isn't exactly readable, so in this case a simple for loop might be
 
 :::info Strings and `.rfind` and `.rindex`
 
-While sequences in general don't have an easy method for finding the last index of an item, strings have two methods `.rfind` and `.rindex` that do just that.
+While sequences in general don't have an easy method for finding the last index of an item, strings have two methods [<u>`.rfind`</u>](https://docs.python.org/3/library/stdtypes.html#str.rfind) and [<u>`.rindex`</u>](https://docs.python.org/3/library/stdtypes.html#str.rindex) that do just that.
 These methods work in the same way as `.find` and `.index`, but search from the right side of the string.
 
 <CodeBlock title={'Using .rfind and .rindex on Strings'}
@@ -222,9 +222,9 @@ print(data.rindex('Hello'))
 
 ### Searching for an Index by Condition
 Another variation of linear search is that we may want to search for an index by some condition.
-In this case, we could just repurpose the for loop from the [searching by condition](#searching-by-condition) section above to return the index of the element instead of `True` or `False`.
+In this case, we could just repurpose the for loop from the [<u>searching by condition</u>](#searching-by-condition) section above to return the index of the element instead of `True` or `False`.
 
-However, we would also use the `next` function combined with a generator expression to find an index based on a condition:
+However, we would also use the [<u>`next`</u>](https://docs.python.org/3/library/functions.html#next) function combined with a generator expression to find an index based on a condition:
 
 <CodeBlock title={'Searching for an Index by Condition - The next Function'}
            code={`
@@ -236,7 +236,7 @@ print(index)
 
 As with the `any` function, this is fine for **simple** cases but if the condition becomes complex, a for loop would be best.
 
-Also, the `next` function will raise a `StopIteration` exception if no values matching the condition exist.
+Also, the `next` function will raise a [<u>`StopIteration`</u>](https://docs.python.org/3/library/exceptions.html#StopIteration) exception if no values matching the condition exist.
 To instead return some kind of default value, use the optional default parameter:
 <p style={{textAlign: "center"}}>
     <code>index = next(i for i, elt in enumerate(data_list) if len(elt) &lt; 3, -1)</code>
