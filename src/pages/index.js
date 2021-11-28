@@ -27,7 +27,7 @@ export default function Home() {
                         to="/docs/welcome">
                         Get Started
                     </Link>
-                    <h2>Or try out a random code snippet below:</h2>
+                    <h2>Or, try out a random code snippet below:</h2>
                     <div style={{width: '73ch', maxWidth: '100%'}}>
                         <CodeBlock title={codeSnippet.title} code={codeSnippet.code}/>
                     </div>
